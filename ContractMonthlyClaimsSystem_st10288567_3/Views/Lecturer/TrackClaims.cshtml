@@ -1,0 +1,45 @@
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace ContractMonthlyClaimsSystem_st10288567_3.Views.Lecturer
+@model IEnumerable<ContractMonthlyClaimsSystem_st10288567_3.Models.Claim>
+
+@{
+    Layout = "_Layout";
+}
+
+<h2>Track Submitted Claims</h2>
+
+@if (!Model.Any())
+{
+    <p>No claims submitted yet.</p>
+}
+else
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Lecturer</th>
+                <th>Hours Worked</th>
+                <th>Hourly Rate</th>
+                <th>Total Amount</th>
+                <th>Status</th>
+                <th>Notes</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var claim in Model)
+            {
+                <tr>
+                    <td>@claim.Id</td>
+                    <td>@claim.LecturerName</td>
+                    <td>@claim.HoursWorked</td>
+                    <td>@claim.HourlyRate</td>
+                    <td>@claim.TotalAmount</td>
+                    <td>@claim.Status</td>
+                    <td>@claim.Notes</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

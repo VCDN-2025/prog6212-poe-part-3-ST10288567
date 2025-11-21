@@ -1,0 +1,78 @@
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace ContractMonthlyClaimsSystem_st10288567_3.Views.Lecturer
+@model ContractMonthlyClaimsSystem_st10288567_3.Models.Claim
+
+<div class="text-center mt-5">
+    <h1 class="fw-bold text-theme">Lecturer Page</h1>
+</div>
+
+<div class="row justify-content-center mt-4">
+    <div class="col-md-6">
+        <div class="card-custom p-4">
+
+            <form asp-action="SubmitClaim" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
+
+                <div class="mb-2">
+                    <label asp-for="LecturerName" class="form-label"></label>
+                    <input asp-for="LecturerName" class="form-control" />
+                    <span asp-validation-for="LecturerName" class="text-danger"></span>
+                </div>
+
+                <div class="mb-2">
+                    <label asp-for="HoursWorked" class="form-label"></label>
+                    <input asp-for="HoursWorked" class="form-control" type="number" step="0.1" />
+                    <span asp-validation-for="HoursWorked" class="text-danger"></span>
+                </div>
+
+                <div class="mb-2">
+                    <label asp-for="HourlyRate" class="form-label"></label>
+                    <input asp-for="HourlyRate" class="form-control" type="number" step="0.01" />
+                    <span asp-validation-for="HourlyRate" class="text-danger"></span>
+                </div>
+
+                <div class="mb-2">
+                    <label asp-for="TotalAmount" class="form-label"></label>
+                    <input asp-for="TotalAmount" class="form-control" readonly />
+                    <small class="text-muted">This amount is calculated automatically from hours × rate.</small>
+                </div>
+
+                <div class="mb-2">
+                    <label asp-for="Notes" class="form-label"></label>
+                    <textarea asp-for="Notes" class="form-control"></textarea>
+                    <span asp-validation-for="Notes" class="text-danger"></span>
+                </div>
+
+                <div class="mb-2">
+                    <label class="form-label">Supporting Document</label>
+                    <input type="file" name="file" class="form-control" />
+                </div>
+
+                <button type="submit" class="btn btn-theme">Submit Claim</button>
+            </form>
+
+            @if (TempData["Message"] != null)
+            {
+                <div class="alert alert-success mt-2">@TempData["Message"]</div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        // Client-side auto-calculation of total amount for better user experience
+        $(function () {
+            function updateTotal() {
+                var hours = parseFloat($("#HoursWorked").val()) || 0;
+                var rate = parseFloat($("#HourlyRate").val()) || 0;
+                var total = hours * rate;
+                $("#TotalAmount").val(total.toFixed(2));
+            }
+
+            $("#HoursWorked, #HourlyRate").on("input", updateTotal);
+        });
+    </script>
+}

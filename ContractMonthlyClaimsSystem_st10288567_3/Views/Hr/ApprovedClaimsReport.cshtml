@@ -1,0 +1,55 @@
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace ContractMonthlyClaimsSystem_st10288567_3.Views.Hr
+
+@model IEnumerable<ContractMonthlyClaimsSystem_st10288567_3.Models.HrReportRow>
+
+@{
+    Layout = "_Layout";
+}
+
+<h2>HR – Approved Claims Report</h2>
+
+@if (!Model.Any())
+{
+    <p>No approved claims found.</p>
+}
+else
+{
+    var totalHours = Model.Sum(r => r.TotalHours);
+    var totalAmount = Model.Sum(r => r.TotalAmount);
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Lecturer</th>
+                <th>Number of Claims</th>
+                <th>Total Hours</th>
+                <th>Total Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var row in Model)
+            {
+                <tr>
+                    <td>@row.LecturerName</td>
+                    <td>@row.NumberOfClaims</td>
+                    <td>@row.TotalHours</td>
+                    <td>@row.TotalAmount.ToString("C")</td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr class="fw-bold">
+                <td>Total</td>
+                <td>@Model.Sum(r => r.NumberOfClaims)</td>
+                <td>@totalHours</td>
+                <td>@totalAmount.ToString("C")</td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <p class="text-muted">
+        This report helps HR to process payments by summarising all approved claims per lecturer.
+    </p>
+}
